@@ -17,6 +17,8 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
+My recommendation system will be much more simple when compared to real world systems utilized by programs such as Spotify or Youtube that find patterns in what users skip,save and listen to combined with genre and the context of the song. Using the users stated musical preferences, songs will be judged by energy, valence and acoustics so that the reccomendations can remain accurate but also simple 
+
 Explain your design in plain language.
 
 Some prompts to answer:

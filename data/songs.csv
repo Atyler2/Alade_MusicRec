@@ -9,3 +9,11 @@ id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
 9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
 10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
+11,Golden Harbor,Marina Vale,reggae,carefree,0.68,96,0.80,0.75,0.34
+12,Velvet Snowfall,Winter Grove,classical,nostalgic,0.31,92,0.42,0.28,0.94
+13,Neon Skyline,Byte & Bloom,house,energetic,0.88,126,0.74,0.90,0.06
+14,Backroad Signals,Harbor Creek,country,melancholy,0.59,108,0.33,0.58,0.67
+15,Moonlit Echoes,Elara North,folk,dreamy,0.44,84,0.62,0.51,0.81
+16,Fire in the Distance,Atlas Reign,metal,triumphant,0.95,160,0.51,0.57,0.03
+17,Midnight Riviera,Sol Mar,reggaeton,romantic,0.72,100,0.69,0.78,0.21
+18,Quiet Cathedral,The Hollow Choir,gospel,serene,0.36,76,0.57,0.42,0.88
