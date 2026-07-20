@@ -1,6 +1,7 @@
 from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
 
+
 @dataclass
 class Song:
     """
@@ -18,6 +19,7 @@ class Song:
     danceability: float
     acousticness: float
 
+
 @dataclass
 class UserProfile:
     """
@@ -29,11 +31,13 @@ class UserProfile:
     target_energy: float
     likes_acoustic: bool
 
+
 class Recommender:
     """
     OOP implementation of the recommendation logic.
     Required by tests/test_recommender.py
     """
+
     def __init__(self, songs: List[Song]):
         self.songs = songs
 
@@ -45,29 +49,86 @@ class Recommender:
         # TODO: Implement explanation logic
         return "Explanation placeholder"
 
+
 def load_songs(csv_path: str) -> List[Dict]:
     """
     Loads songs from a CSV file.
     Required by src/main.py
     """
-    # TODO: Implement CSV loading logic
+    import csv
+    from pathlib import Path
+
     print(f"Loading songs from {csv_path}...")
-    return []
+
+    path = Path(csv_path)
+    if not path.is_absolute():
+        path = Path(__file__).resolve().parent.parent / path
+
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        songs = []
+        for row in reader:
+            song = {
+                "id": int(row["id"]),
+                "title": row["title"],
+                "artist": row["artist"],
+                "genre": row["genre"],
+                "mood": row["mood"],
+                "energy": float(row["energy"]),
+                "tempo_bpm": float(row["tempo_bpm"]),
+                "valence": float(row["valence"]),
+                "danceability": float(row["danceability"]),
+                "acousticness": float(row["acousticness"]),
+            }
+            songs.append(song)
+
+    return songs
+
 
 def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     """
     Scores a single song against user preferences.
     Required by recommend_songs() and src/main.py
     """
-    # TODO: Implement scoring logic using your Algorithm Recipe from Phase 2.
-    # Expected return format: (score, reasons)
-    return []
+    genre_pref = user_prefs.get(
+        "genre") or user_prefs.get("favorite_genre", "")
+    mood_pref = user_prefs.get("mood") or user_prefs.get("favorite_mood", "")
+    target_energy = user_prefs.get("energy")
+    if target_energy is None:
+        target_energy = user_prefs.get("target_energy", 0.0)
+
+    genre_match = 1.0 if song.get("genre") == genre_pref else 0.0
+    mood_match = 1.0 if song.get("mood") == mood_pref else 0.0
+    energy_similarity = max(
+        0.0, 1.0 - abs(float(song.get("energy", 0.0)) - float(target_energy)))
+
+    score = (2.0 * genre_match) + (1.0 * mood_match) + energy_similarity
+
+    reasons: List[str] = []
+    if genre_match:
+        reasons.append("genre match (+2.0)")
+    else:
+        reasons.append("genre mismatch")
+
+    if mood_match:
+        reasons.append("mood match (+1.0)")
+    else:
+        reasons.append("mood mismatch")
+
+    reasons.append(f"energy similarity (+{energy_similarity:.2f})")
+
+    return score, reasons
+
 
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
     """
     Functional implementation of the recommendation logic.
     Required by src/main.py
     """
-    # TODO: Implement scoring and ranking logic
-    # Expected return format: (song_dict, score, explanation)
-    return []
+    scored_songs = [
+        (song, score, ", ".join(reasons))
+        for song in songs
+        for score, reasons in [score_song(user_prefs, song)]
+    ]
+
+    return sorted(scored_songs, key=lambda item: item[1], reverse=True)[:k]

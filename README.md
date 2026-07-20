@@ -19,6 +19,18 @@ Replace this paragraph with your own summary of what your version does.
 
 My recommendation system will be much more simple when compared to real world systems utilized by programs such as Spotify or Youtube that find patterns in what users skip,save and listen to combined with genre and the context of the song. Using the users stated musical preferences, songs will be judged by energy, valence and acoustics so that the reccomendations can remain accurate but also simple 
 
+Recipe: 
+
+Genre match: +2.0 points
+Mood match: +1.0 point
+Energy similarity: add a value based on how close the song’s energy is to the user’s target
+
+Energy Formula: similarity = 1 - |Eneregy(song) - Energy(target)|
+total: S = 2.0 x genre_match + 1.0 x mood_match = similarity
+
+Genre is the strongest signal so it has higher weight compared to mood but energy exists to break ties between similar songs. 
+
+
 Explain your design in plain language.
 
 Some prompts to answer:
@@ -69,18 +81,29 @@ You can add more tests in `tests/test_recommender.py`.
 ---
 
 ## Sample Recommendation Output
+Loaded songs: 18
 
-Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
+Top recommendations:
 
-```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
-```
+1. Sunrise City
+   Score: 3.98
+   Reasons: genre match (+2.0), mood match (+1.0), energy similarity (+0.98)
 
+2. Gym Hero
+   Score: 2.87
+   Reasons: genre match (+2.0), mood mismatch, energy similarity (+0.87)
+
+3. Rooftop Lights
+   Score: 1.96
+   Reasons: genre mismatch, mood match (+1.0), energy similarity (+0.96)
+
+4. Night Drive Loop
+   Score: 0.95
+   Reasons: genre mismatch, mood mismatch, energy similarity (+0.95)
+
+5. Neon Skyline
+   Score: 0.92
+   Reasons: genre mismatch, mood mismatch, energy similarity (+0.92)
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 
 ---
